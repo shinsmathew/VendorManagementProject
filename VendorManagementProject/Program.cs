@@ -1,7 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using VendorManagementProject.DataBase;
-using VendorManagementProject.Middleware;
 using VendorManagementProject.Services.Class;
 using VendorManagementProject.Services.Interface;
 using VendorManagementProject.Services.Interfaces;

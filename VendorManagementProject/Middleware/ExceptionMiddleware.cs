@@ -1,63 +1,59 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
-namespace VendorManagementProject.Middleware
+public class ExceptionMiddleware
 {
-    public class ExceptionMiddleware
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+        _logger = logger;
+    }
 
-        public ExceptionMiddleware(RequestDelegate next)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            _next = next;
+            await _next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (Exception ex)
         {
-            try
-            {
-                
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                
-                await HandleExceptionAsync(context, ex);
-            }
+            _logger.LogError(ex, "An unhandled exception occurred.");
+            await HandleExceptionAsync(context, ex);
         }
+    }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+
+        context.Response.StatusCode = exception switch
         {
-            
-            context.Response.ContentType = "application/json";
+            NotFoundException => (int)HttpStatusCode.NotFound,
+            ValidationException => (int)HttpStatusCode.BadRequest,
+            _ => (int)HttpStatusCode.InternalServerError
+        };
 
-            context.Response.StatusCode = exception switch
-            {
-                NotFoundException => (int)HttpStatusCode.NotFound,
-                ValidationException => (int)HttpStatusCode.BadRequest,
-                _ => (int)HttpStatusCode.InternalServerError
-            };
-
-           
-            var response = new
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = "An error occurred while processing your request.",
-                Detail = exception.Message
-            };
-
-            
-            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
-        }
-
-        public class NotFoundException : Exception
+        var response = new
         {
-            public NotFoundException(string message) : base(message) { }
-        }
+            StatusCode = context.Response.StatusCode,
+            Message = exception.Message, // Use the exception message directly
+            Detail = exception.InnerException?.Message // Include inner exception details if available
+        };
 
-        public class ValidationException : Exception
-        {
-            public ValidationException(string message) : base(message) { }
-        }
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+
+    public class NotFoundException : Exception
+    {
+        public NotFoundException(string message) : base(message) { }
+    }
+
+    public class ValidationException : Exception
+    {
+        public ValidationException(string message) : base(message) { }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Numerics;
 using VendorManagementProject.DataBase;
-using VendorManagementProject.Middleware;
 using VendorManagementProject.Models;
 using VendorManagementProject.Services.Interface;
 using VendorManagementProject.Services.Interfaces;
@@ -12,18 +11,27 @@ namespace VendorManagementProject.Services.Class
     public class VendorRepository : IVendorRepository
     {
         private readonly DataBaseContext _context;
+        private readonly ILogger<VendorRepository> _logger;
 
-        public VendorRepository(DataBaseContext context)
+        public VendorRepository(DataBaseContext context, ILogger<VendorRepository> logger)
         {
             _context = context;
+            _logger= logger;
         }
 
         public async Task<IEnumerable<Vendor>> GetAllVendorsAsync()
         {
-            return await _context.Vendors
+            var vendors = await _context.Vendors
                 .Include(v => v.BankAccounts)
                 .Include(v => v.ContactPersons)
                 .ToListAsync();
+
+            if (vendors == null || !vendors.Any())
+            {
+                throw new ExceptionMiddleware.NotFoundException("No vendors found.");
+            }
+
+            return vendors;
         }
 
         public async Task<Vendor> GetVendorByIdAsync(int id)
@@ -45,6 +53,10 @@ namespace VendorManagementProject.Services.Class
 
         public async Task AddVendorAsync(Vendor vendor)
         {
+            if (vendor == null)
+            {
+                throw new ArgumentNullException(nameof(vendor), "Vendor cannot be null.");
+            }
             _context.Vendors.Add(vendor);
             await _context.SaveChangesAsync();
         }
@@ -52,7 +64,12 @@ namespace VendorManagementProject.Services.Class
 
         public async Task UpdateVendorAsync(Vendor vendor)
         {
-           
+
+            if (vendor == null)
+            {
+                throw new ArgumentNullException(nameof(vendor), "Vendor cannot be null.");
+            }
+
             var existingVendor = await _context.Vendors
                 .Include(v => v.BankAccounts)
                 .Include(v => v.ContactPersons)
@@ -63,7 +80,6 @@ namespace VendorManagementProject.Services.Class
                 throw new ExceptionMiddleware.NotFoundException($"Vendor with ID {vendor.VendorID} not found.");
             }
 
-            
             _context.Entry(existingVendor).CurrentValues.SetValues(vendor);
 
             
