@@ -1,0 +1,6 @@
+@VendorManagementProject_HostAddress = http://localhost:5102
+
+GET {{VendorManagementProject_HostAddress}}/Vendors/
+Accept: application/json
+
+###
