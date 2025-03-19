@@ -41,6 +41,9 @@ namespace VendorManagementProject
             builder.Services.AddScoped<IAuthService, AuthService>();
 
 
+
+            //Configured JWT Authentication
+
             var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
             builder.Services.AddAuthentication(x =>
             {
@@ -55,11 +58,16 @@ namespace VendorManagementProject
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true, 
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"], 
+                    ValidateAudience = true, 
+                    ValidAudience = builder.Configuration["Jwt:Audience"], 
+                    ValidateLifetime = true 
                 };
             });
 
+
+            //Configured Swagger/ OpenAPI
 
             builder.Services.AddSwaggerGen(options =>
             {
@@ -93,12 +101,11 @@ namespace VendorManagementProject
             });
 
 
+            //Configured Authorization Policies
+
             builder.Services.AddAuthorization(options =>
             {
-                // Policy for Admin-only access
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-
-                // Policy for User-only access
                 options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
             });
 
@@ -106,7 +113,7 @@ namespace VendorManagementProject
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            
 
             var app = builder.Build();
 

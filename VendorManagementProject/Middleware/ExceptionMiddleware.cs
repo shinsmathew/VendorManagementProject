@@ -6,7 +6,7 @@ using VendorManagementProject.Exceptions;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly ILogger<ExceptionMiddleware> _logger; //instance for logging exceptions.
 
     public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
@@ -42,8 +42,8 @@ public class ExceptionMiddleware
         var response = new
         {
             StatusCode = context.Response.StatusCode,
-            Message = exception.Message, // Use the exception message directly
-            Detail = exception.InnerException?.Message // Include inner exception details if available
+            Message = exception.Message, 
+            Detail = exception.InnerException?.Message 
         };
 
         return context.Response.WriteAsync(JsonSerializer.Serialize(response));

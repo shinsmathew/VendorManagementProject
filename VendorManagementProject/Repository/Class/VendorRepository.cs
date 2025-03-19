@@ -22,7 +22,7 @@ namespace VendorManagementProject.Services.Class
 
         public async Task<IEnumerable<Vendor>> GetAllVendorsAsync()
         {
-            var vendors = await _context.Vendors
+            var vendors = await _context.Vendors.AsNoTracking()
                 .Include(v => v.BankAccounts)
                 .Include(v => v.ContactPersons)
                 .ToListAsync();
@@ -37,9 +37,8 @@ namespace VendorManagementProject.Services.Class
 
         public async Task<Vendor> GetVendorByIdAsync(int id)
         {
-            
-
-            var vendor = await _context.Vendors
+  
+            var vendor = await _context.Vendors.AsNoTracking()
                .Include(v => v.BankAccounts)
                .Include(v => v.ContactPersons)
                .FirstOrDefaultAsync(v => v.VendorID == id);

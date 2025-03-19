@@ -21,17 +21,23 @@ namespace VendorManagementProject.Services.Class
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+
+            //Defines the properties of the JWT (claims, expiration, and signing credentials).
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-            new Claim(ClaimTypes.NameIdentifier, user.UID.ToString()),
-            new Claim(ClaimTypes.Name, user.UserID),
-            new Claim(ClaimTypes.Role, user.Role) 
-        }),
+                    new Claim(ClaimTypes.NameIdentifier, user.UID.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserID),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+
                 Expires = DateTime.UtcNow.AddMinutes(30),
+                Issuer = _configuration["Jwt:Issuer"], 
+                Audience = _configuration["Jwt:Audience"], 
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
