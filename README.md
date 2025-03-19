@@ -68,7 +68,7 @@ Ensure you have the following installed:
 
 
 
-### **4 API Endpoints**
+### **3 API Endpoints**
 ----------------------------------
 
 - The application will start, and you can access the Swagger UI at:
