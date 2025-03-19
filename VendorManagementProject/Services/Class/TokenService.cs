@@ -29,7 +29,7 @@ namespace VendorManagementProject.Services.Class
             new Claim(ClaimTypes.Name, user.UserID),
             new Claim(ClaimTypes.Role, user.Role) // Assign the role from the user object
         }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
