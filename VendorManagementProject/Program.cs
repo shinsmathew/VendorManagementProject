@@ -1,6 +1,11 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using VendorManagementProject.DataBase;
+using VendorManagementProject.Repository.Class;
+using VendorManagementProject.Repository.Interfaces;
 using VendorManagementProject.Services.Class;
 using VendorManagementProject.Services.Interface;
 using VendorManagementProject.Services.Interfaces;
@@ -26,13 +31,41 @@ namespace VendorManagementProject
 
             
             builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
             builder.Services.AddScoped<IVendorService, VendorService>();
             builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
+            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
-           
+
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            });
+
+
             builder.Services.AddControllers();
-
-            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -46,12 +79,10 @@ namespace VendorManagementProject
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
-
             app.MapControllers();
-
             app.Run();
 
 

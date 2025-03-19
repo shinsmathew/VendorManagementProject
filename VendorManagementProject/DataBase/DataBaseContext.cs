@@ -13,6 +13,7 @@ namespace VendorManagementProject.DataBase
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

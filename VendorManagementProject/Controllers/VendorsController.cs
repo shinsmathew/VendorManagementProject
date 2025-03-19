@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace VendorManagementProject.Controllers
 
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
         {
@@ -32,6 +34,7 @@ namespace VendorManagementProject.Controllers
 
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendor>> GetVendor(int id)
         {
@@ -41,8 +44,8 @@ namespace VendorManagementProject.Controllers
             
         }
 
-        
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<ActionResult<Vendor>> CreateVendor(Vendor vendor)
         {
@@ -57,6 +60,7 @@ namespace VendorManagementProject.Controllers
             
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVendor(int id, Vendor vendor)
         {
@@ -80,6 +84,7 @@ namespace VendorManagementProject.Controllers
             
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVendor(int id)
         {
