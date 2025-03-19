@@ -16,7 +16,7 @@ namespace VendorManagementProject.Services.Class
             _configuration = configuration;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(VendorUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace VendorManagementProject.Models
 {
-    public class User
+    public class VendorUser
     {
         [Key]
         [JsonIgnore]
@@ -27,8 +27,8 @@ namespace VendorManagementProject.Models
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        public string PasswordHash { get; set; }
+        [Required(ErrorMessage = "Password is required.")]
+        public string Password { get; set; }
 
         [Required(ErrorMessage = "Role is required.")]
         [StringLength(20, ErrorMessage = "Role cannot exceed 20 characters.")]

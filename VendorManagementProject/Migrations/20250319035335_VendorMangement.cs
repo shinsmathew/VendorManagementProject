@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace VendorManagementProject.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class VendorMangement : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,13 +17,13 @@ namespace VendorManagementProject.Migrations
                 {
                     VendorID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     VendorName2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address1 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Address2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ZIP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     EMail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -34,6 +35,25 @@ namespace VendorManagementProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VendorUsers",
+                columns: table => new
+                {
+                    UID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserFirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserLastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendorUsers", x => x.UID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BankAccounts",
                 columns: table => new
                 {
@@ -41,8 +61,8 @@ namespace VendorManagementProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IBAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BIC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountHolder = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BankName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AccountHolder = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     VendorID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -62,8 +82,8 @@ namespace VendorManagementProject.Migrations
                 {
                     ContactPID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EMail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VendorID = table.Column<int>(type: "int", nullable: false)
@@ -98,6 +118,9 @@ namespace VendorManagementProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "ContactPersons");
+
+            migrationBuilder.DropTable(
+                name: "VendorUsers");
 
             migrationBuilder.DropTable(
                 name: "Vendors");

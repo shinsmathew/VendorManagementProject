@@ -20,10 +20,10 @@ namespace VendorManagementProject.Services.Class
             _authRepository= authRepository;
         }
 
-        public async Task<string> Register(User user, string password)
+        public async Task<string> Register(VendorUser user)
         {
 
-            var AuthToken = await _authRepository.Register(user, password);
+            var AuthToken = await _authRepository.Register(user);
             return AuthToken;
         }
 

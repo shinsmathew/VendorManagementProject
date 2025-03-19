@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using VendorManagementProject.DataBase;
 using VendorManagementProject.Repository.Class;
@@ -64,6 +65,7 @@ namespace VendorManagementProject
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
             });
 
+            
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

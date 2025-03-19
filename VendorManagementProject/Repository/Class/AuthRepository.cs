@@ -19,15 +19,15 @@ namespace VendorManagementProject.Repository.Class
             _tokenService = tokenService;
         }
 
-        public async Task<string> Register(User user, string password)
+        public async Task<string> Register(VendorUser user)
         {
-            if (await _context.Users.AnyAsync(u => u.UserID == user.UserID))
+            if (await _context.VendorUsers.AnyAsync(u => u.UserID == user.UserID))
             {
                 throw new Exception("User already exists.");
             }
-
-            user.PasswordHash = _passwordHasher.HashPassword(password);
-            _context.Users.Add(user);
+            
+            user.Password = _passwordHasher.HashPassword(user.Password);
+            _context.VendorUsers.Add(user);
             await _context.SaveChangesAsync();
 
             return _tokenService.GenerateToken(user);
@@ -35,9 +35,9 @@ namespace VendorManagementProject.Repository.Class
 
         public async Task<string> Login(string userId, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserID == userId);
+            var user = await _context.VendorUsers.FirstOrDefaultAsync(u => u.UserID == userId);
 
-            if (user == null || !_passwordHasher.VerifyPassword(password, user.PasswordHash))
+            if (user == null || !_passwordHasher.VerifyPassword(password, user.Password))
             {
                 throw new Exception("Invalid credentials.");
             }

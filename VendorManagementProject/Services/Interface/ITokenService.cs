@@ -4,6 +4,6 @@ namespace VendorManagementProject.Services.Interface
 {
     public interface ITokenService
     {
-        string GenerateToken(User user);
+        string GenerateToken(VendorUser user);
     }
 }
