@@ -91,6 +91,20 @@ Update Vendor: PUT /api/vendors/{id} (Admin Only)
 
 Delete Vendor: DELETE /api/vendors/{id} (Admin Only)
 
+------------------------------------------------
+
+#Packages
+
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.Extensions.Caching.StackExchangeRedis
+StackExchange.Redis
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package BCrypt.Net-Next
+
+
 
 
 
