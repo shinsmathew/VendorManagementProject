@@ -106,6 +106,12 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 dotnet add package BCrypt.Net-Next
 
+For Unit test -------
+dotnet add VendorManagementProject.Tests reference VendorManagementProject
+dotnet add VendorManagementProject.Tests package Moq
+dotnet add VendorManagementProject.Tests package Microsoft.NET.Test.Sdk
+dotnet add VendorManagementProject.Tests package xunit.runner.visualstudio
+
 #Tables
 
 select * from BankAccounts
