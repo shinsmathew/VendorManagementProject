@@ -54,8 +54,6 @@ namespace VendorManagementProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-
                 await _vendorService.AddVendorAsync(vendor);
                 return CreatedAtAction(nameof(GetVendor), new { id = vendor.VendorID }, vendor);
             
@@ -70,7 +68,6 @@ namespace VendorManagementProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             
                 var existingVendor = await _vendorRepository.GetVendorByIdAsync(id);
 
