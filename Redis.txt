@@ -1,0 +1,155 @@
+1) Install Radis - download Redis for windows 11 git
+
+2) Advanced system Settings -> Environment variables -> Path -> Edit -> New -> Add new path for Redis (C:\Program Files\Redis) -> Ok
+
+3) Command Prompt -> redis-server
+                  -> redis-cli  - (start redis CLI)
+                  -> KEYS *     - to get all keys
+                  ->KEYS Vendor_*  - filter keys for vendor
+                  -> HGETALL /GET / LRANGE / SMEMBERS <key>  : Hash, String, List, Set    ( Eg:  GET VendorApp_Vendor_9)
+                  -> DEL <key>
+                  -> TYPE <key> (know the datatype of Key)
+
+
+-----------------------------------------------------------------------
+1. String Operations
+Strings are the simplest data type and can hold text, numbers, or binary data.
+-------------------------------------------------------------------------------
+SET key value: Set a string value for a key.
+GET key: Get the value of a key.
+DEL key: Delete a key.
+INCR key: Increment the value of a key (assumes integer).
+DECR key: Decrement the value of a key.
+APPEND key value: Append value to the end of the existing string.
+MSET key1 value1 key2 value2 ...: Set multiple keys to multiple values.
+MGET key1 key2 ...: Get the values of multiple keys.
+EXPIRE key seconds: Set a timeout for a key (in seconds).
+TTL key: Check the remaining time to live for a key.
+
+2. Hash Operations
+Hashes store field-value pairs, similar to a dictionary.
+----------------------------------------------------------------------------
+
+HSET key field value: Set the value of a field in a hash.
+HGET key field: Get the value of a field in a hash.
+HDEL key field: Delete one or more fields from a hash.
+HGETALL key: Get all fields and values in a hash.
+HMSET key field1 value1 field2 value2 ...: Set multiple fields in a hash.
+HMGET key field1 field2 ...: Get the values of multiple fields in a hash.
+HEXISTS key field: Check if a field exists in a hash.
+HINCRBY key field increment: Increment a field's integer value.
+HLEN key: Get the number of fields in a hash.
+HKEYS key: Get all field names in a hash.
+HVALS key: Get all values in a hash.
+
+3. List Operations
+Lists are ordered sequences of strings, supporting operations on both ends.
+------------------------------------------------------------------------------------
+
+LPUSH key value: Prepend a value to the beginning of a list.
+RPUSH key value: Append a value to the end of a list.
+LPOP key: Remove and return the first element of a list.
+RPOP key: Remove and return the last element of a list.
+LRANGE key start stop: Get a range of elements from a list.
+LLEN key: Get the length of a list.
+LINDEX key index: Get the element at a specific index.
+LSET key index value: Set the value of an element at a specific index.
+LTRIM key start stop: Trim a list to keep only elements within a specified range.
+RPOPLPUSH source destination: Remove the last element of the source list and push it to the beginning of the destination list.
+
+4. Set Operations
+Sets are unordered collections of unique strings.
+-----------------------------------------------------------------------
+
+SADD key member: Add a member to a set.
+SREM key member: Remove a member from a set.
+SISMEMBER key member: Check if a member exists in a set.
+SMEMBERS key: Get all members in a set.
+SCARD key: Get the number of members in a set.
+SPOP key [count]: Remove and return one or more random members from a set.
+SRANDMEMBER key [count]: Get one or more random members from a set.
+SDIFF key1 key2 ...: Subtract multiple sets.
+SINTER key1 key2 ...: Intersect multiple sets.
+SUNION key1 key2 ...: Unite multiple sets.
+
+5. Sorted Set (ZSet) Operations
+Sorted Sets store unique strings, ordered by a score.
+--------------------------------------------------------------
+
+ZADD key score member: Add a member with a score to a sorted set.
+ZRANGE key start stop: Get a range of members in a sorted set by index.
+ZRANGEBYSCORE key min max: Get members within a score range.
+ZREM key member: Remove a member from a sorted set.
+ZSCORE key member: Get the score of a member in a sorted set.
+ZINCRBY key increment member: Increment the score of a member in a sorted set.
+ZCARD key: Get the number of members in a sorted set.
+ZCOUNT key min max: Count the number of members in a score range.
+
+6. Key Management Operations
+These commands apply to all key types.
+-----------------------------------------------------------
+DEL key: Delete a key.
+EXISTS key: Check if a key exists.
+RENAME key newkey: Rename a key.
+EXPIRE key seconds: Set a key’s expiration in seconds.
+TTL key: Get the time-to-live of a key.
+TYPE key: Get the data type of a key.
+KEYS pattern: List all keys matching a pattern (e.g., KEYS user:*).
+FLUSHALL: Remove all keys from all databases.
+FLUSHDB: Remove all keys from the current database.
+
+7. Transaction Operations
+Transactions allow multiple commands to be executed atomically.
+--------------------------------------------------------------------
+MULTI: Start a transaction.
+EXEC: Execute all commands in the transaction.
+DISCARD: Discard all commands in the transaction.
+WATCH key: Watch a key for changes before executing a transaction.
+UNWATCH: Unwatch all watched keys.
+
+8. Scripting Operations
+Redis supports Lua scripting for complex operations.
+------------------------------------------------------------------
+
+EVAL script numkeys key [key ...] arg [arg ...]: Run a Lua script.
+EVALSHA sha1 numkeys key [key ...] arg [arg ...]: Execute a cached script.
+
+9. Pub/Sub Operations
+Redis supports publish/subscribe messaging.
+--------------------------------------------------
+
+PUBLISH channel message: Publish a message to a channel.
+SUBSCRIBE channel: Subscribe to a channel.
+UNSUBSCRIBE channel: Unsubscribe from a channel.
+PSUBSCRIBE pattern: Subscribe to channels matching a pattern.
+PUNSUBSCRIBE pattern: Unsubscribe from channels matching a pattern.
+
+10. Server Management Operations
+Useful commands for managing Redis server settings and monitoring.
+----------------------------------------------------------------------
+
+INFO: Get information and statistics about the server.
+CONFIG GET parameter: Get the configuration parameter.
+CONFIG SET parameter value: Set the configuration parameter.
+MONITOR: Monitor all commands received by the server.
+CLIENT LIST: List connected clients.
+CLIENT KILL ip:port: Disconnect a client by address.
+SLOWLOG GET [n]: Get the Redis slow query log.
+
+Examples
+Setting and Getting Strings:
+--------------------------
+
+SET mykey "Hello, World!"
+GET mykey
+
+Working with Hashes:
+-----------------------------
+HSET myhash field1 "value1" field2 "value2"
+HGETALL myhash
+-
+Working with Lists:
+---------------------------
+LPUSH mylist "one"
+RPUSH mylist "two"
+LRANGE mylist 0 -1
