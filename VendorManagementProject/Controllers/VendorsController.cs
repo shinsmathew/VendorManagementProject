@@ -25,7 +25,7 @@ namespace VendorManagementProject.Controllers
 
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
         {
@@ -34,7 +34,7 @@ namespace VendorManagementProject.Controllers
 
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendor>> GetVendor(int id)
         {
