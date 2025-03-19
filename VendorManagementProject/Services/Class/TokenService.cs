@@ -16,6 +16,7 @@ namespace VendorManagementProject.Services.Class
             _configuration = configuration;
         }
 
+
         public string GenerateToken(VendorUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -24,15 +25,16 @@ namespace VendorManagementProject.Services.Class
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.UID.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserID),
-                    new Claim(ClaimTypes.Role, user.Role)
-                }),
+            new Claim(ClaimTypes.NameIdentifier, user.UID.ToString()),
+            new Claim(ClaimTypes.Name, user.UserID),
+            new Claim(ClaimTypes.Role, user.Role) // Assign the role from the user object
+        }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
     }
 }

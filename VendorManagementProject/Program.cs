@@ -93,14 +93,16 @@ namespace VendorManagementProject
             });
 
 
-
-
             builder.Services.AddAuthorization(options =>
             {
+                // Policy for Admin-only access
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+
+                // Policy for User-only access
+                options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
             });
 
-            
+
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

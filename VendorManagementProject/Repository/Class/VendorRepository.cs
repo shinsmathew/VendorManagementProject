@@ -5,6 +5,7 @@ using VendorManagementProject.DataBase;
 using VendorManagementProject.Models;
 using VendorManagementProject.Services.Interface;
 using VendorManagementProject.Services.Interfaces;
+using VendorManagementProject.Exceptions;
 
 namespace VendorManagementProject.Services.Class
 {
@@ -28,7 +29,7 @@ namespace VendorManagementProject.Services.Class
 
             if (vendors == null || !vendors.Any())
             {
-                throw new ExceptionMiddleware.NotFoundException("No vendors found.");
+                throw new NotFoundException("No vendors found.");
             }
 
             return vendors;
@@ -45,7 +46,7 @@ namespace VendorManagementProject.Services.Class
 
             if (vendor == null)
             {
-                throw new ExceptionMiddleware.NotFoundException($"Vendor with ID {id} not found.");
+                throw new NotFoundException($"Vendor with ID {id} not found.");
             }
 
             return vendor;
@@ -77,7 +78,7 @@ namespace VendorManagementProject.Services.Class
 
             if (existingVendor == null)
             {
-                throw new ExceptionMiddleware.NotFoundException($"Vendor with ID {vendor.VendorID} not found.");
+                throw new NotFoundException($"Vendor with ID {vendor.VendorID} not found.");
             }
 
             _context.Entry(existingVendor).CurrentValues.SetValues(vendor);
@@ -121,7 +122,7 @@ namespace VendorManagementProject.Services.Class
 
             if (vendor == null)
             {
-                throw new ExceptionMiddleware.NotFoundException($"Vendor with ID {id} not found.");
+                throw new NotFoundException($"Vendor with ID {id} not found.");
             }
 
             if (vendor != null)

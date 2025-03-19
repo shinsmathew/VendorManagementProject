@@ -10,6 +10,7 @@ using VendorManagementProject.Services.Interfaces;
 
 namespace VendorManagementProject.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VendorsController : ControllerBase
@@ -25,7 +26,7 @@ namespace VendorManagementProject.Controllers
 
         }
 
-        [Authorize]
+       
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
         {
@@ -33,8 +34,8 @@ namespace VendorManagementProject.Controllers
                 return Ok(vendor);
 
         }
+        
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendor>> GetVendor(int id)
         {
