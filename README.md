@@ -104,6 +104,12 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 dotnet add package BCrypt.Net-Next
 
+#Tables
+
+select * from BankAccounts
+select * from ContactPersons
+select * from Vendors
+select * from VendorUsers
 
 
 
