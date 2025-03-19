@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendorManagementProject", "VendorManagementProject\VendorManagementProject.csproj", "{117F0A0F-0D14-4BF1-B39A-3BAE03548566}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VendorManagementProject", "VendorManagementProject\VendorManagementProject.csproj", "{117F0A0F-0D14-4BF1-B39A-3BAE03548566}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendorManagementProject.Tests", "VendorManagementProject.Tests\VendorManagementProject.Tests.csproj", "{9CD30E4B-AA95-4C25-AEE1-8924CFD28EB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{117F0A0F-0D14-4BF1-B39A-3BAE03548566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{117F0A0F-0D14-4BF1-B39A-3BAE03548566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{117F0A0F-0D14-4BF1-B39A-3BAE03548566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CD30E4B-AA95-4C25-AEE1-8924CFD28EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CD30E4B-AA95-4C25-AEE1-8924CFD28EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CD30E4B-AA95-4C25-AEE1-8924CFD28EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CD30E4B-AA95-4C25-AEE1-8924CFD28EB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
