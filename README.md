@@ -1,23 +1,23 @@
 # Vendor Management Project with JWT Authentication
 
+Hello Shins Here......................... Nice to meet you!
+
 This is a **.NET Core 8 REST API** for managing vendors, their contact persons, and bank account details, featuring user authentication with **JWT (JSON Web Token)**.
 
 ---
 
-## 📌 Features
+## Features
 
-- ✅ **JWT Authentication** (Register & Login).
-- ✅ **Vendor CRUD operations** (`Create`, `Read`, `Update`, `Delete`).
-- ✅ **Exception Handling** using middleware.
-- ✅ **Entity Framework Core** with **SQL Server**.
-- ✅ **Redis caching** for performance optimization.
-- ✅ **Repository and Service layer** for clean architecture.
+-  **JWT Authentication** (Register & Login).
+-  **Vendor CRUD operations** (`Create`, `Read`, `Update`, `Delete`).
+-  **Exception Handling** using middleware.
+-  **Entity Framework Core** with **SQL Server**.
+-  **Redis caching** for performance optimization.
+-  **Repository and Service layer** for clean architecture.
 
----
 
-##   Getting Started
-
-### **1️⃣ Prerequisites**
+### ** 1 Prerequisites**
+--------------------------------------
 
 Ensure you have the following installed:
 
@@ -29,7 +29,9 @@ Ensure you have the following installed:
 
 ---
 
-### **2️⃣ Setup and Installation**
+### **2 Setup and Installation**
+----------------------------------
+
 
 #### **Clone the Repository**
 
@@ -39,22 +41,21 @@ Ensure you have the following installed:
 
 #### **Database Setup**
 
-1. Run the provided SQL script to create the necessary databases and tables. (The SQL script is attached to the project.)
+- Run the provided SQL script to create the necessary databases and tables. (The SQL script is attached to the project.)
 
-2. Update the `appsettings.json` file with your SQL Server connection string:
-
-
+- Update the `appsettings.json` file with your SQL Server connection string:
+ "
      "ConnectionStrings": {
     "DBSC": "Data Source=YOUR_SERVER_NAME;Initial Catalog=VendorManagementProject;Integrated Security=True;Trust Server Certificate=True"
-}
+    }
 
-3. Install Radis - download Redis for windows 11 git
+- Install Radis - download Redis for windows 11 git
 
 - In Own computer - Advanced system Settings -> Environment variables -> Path -> Edit -> New -> Add new path for Redis (C:\Program Files\Redis) -> Ok
 
-Start the Redis server:
+### ** Start the Redis server**
 
-4. Open Command Prompt and run:
+- Open Command Prompt and run:
 
  redis-server
  redis-cli
@@ -66,12 +67,13 @@ Start the Redis server:
 -> TYPE <key> (know the datatype of Key)
 
 
-5. The application will start, and you can access the Swagger UI at:
+
+### **4 API Endpoints**
+----------------------------------
+
+- The application will start, and you can access the Swagger UI at:
 
    https://localhost:5001/swagger
-
-
-📄 API Endpoints ********
 
 Authentication-------
 
