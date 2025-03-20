@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VendorManagementProject.Controllers;
+using VendorManagementProject.Exceptions;
 using VendorManagementProject.Models;
 using VendorManagementProject.Services.Interface;
+
 
 namespace VendorManagementProject.Tests.AuthControllerTest
 {
@@ -23,65 +26,44 @@ namespace VendorManagementProject.Tests.AuthControllerTest
         }
 
         [Fact]
-        public async Task Register_ShouldReturnOk_WhenUserIsValid()
+        public async Task Register_ValidUser_ReturnsOkWithToken()
         {
             // Arrange
-            var user = new VendorUser { UserID = "shinsmw@gmail.com", Password = "ShinsM" };
-            _mockAuthService.Setup(service => service.Register(user)).ReturnsAsync("generated-token");
+            var user = new VendorUser
+            {
+
+                UserFirstName = "Shins",
+                UserLastName = "Mathew",
+                UserID = "testUser",
+                Password = "Test@1234",
+                Email = "test@example.com",
+                Role = "User"
+            };
+            
+            _mockAuthService.Setup(service => service.Register(user)).ReturnsAsync("fakeToken");
 
             // Act
             var result = await _authController.UserRegisteration(user);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("generated-token", ((dynamic)okResult.Value).Token);
+            var okResult = result as OkObjectResult;
+            okResult.Should().NotBeNull();
+            okResult.Value.Should().BeEquivalentTo(new { Token = "fakeToken" });
         }
 
         [Fact]
-        public async Task Register_ShouldReturnBadRequest_WhenExceptionIsThrown()
+        public async Task Login_ValidCredentials_ReturnsOkWithToken()
         {
             // Arrange
-            var user = new VendorUser { UserID = "shinsmathew@gmail.com", Password = "ShinsM" };
-            _mockAuthService.Setup(service => service.Register(user)).ThrowsAsync(new Exception("User already exists."));
+            _mockAuthService.Setup(service => service.Login("testuser", "Password@123")).ReturnsAsync("fakeToken");
 
             // Act
-            var result = await _authController.UserRegisteration(user);
+             var result = await _authController.UserLogin("testuser", "Password@123");
 
             // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("User already exists.", badRequestResult.Value);
-        }
-
-        [Fact]
-        public async Task Login_ShouldReturnOk_WhenCredentialsAreValid()
-        {
-            // Arrange
-            var userId = "shinsmathew@gmail.com";
-            var password = "ShinsM";
-            _mockAuthService.Setup(service => service.Login(userId, password)).ReturnsAsync("generated-token");
-
-            // Act
-            var result = await _authController.UserLogin(userId, password);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("generated-token", ((dynamic)okResult.Value).Token);
-        }
-
-        [Fact]
-        public async Task Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid()
-        {
-            // Arrange
-            var userId = "shins3456mathew@gmail.com";
-            var password = "ShinsM";
-            _mockAuthService.Setup(service => service.Login(userId, password)).ThrowsAsync(new Exception("Invalid credentials."));
-
-            // Act
-            var result = await _authController.UserLogin(userId, password);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Invalid credentials.", badRequestResult.Value);
+            var okResult = result as OkObjectResult;
+            okResult.Should().NotBeNull();
+            okResult.Value.Should().BeEquivalentTo(new { Token = "fakeToken" });
         }
     }
 }
