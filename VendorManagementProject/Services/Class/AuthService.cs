@@ -13,11 +13,13 @@ namespace VendorManagementProject.Services.Class
     {
 
         private readonly IAuthRepository _authRepository;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public AuthService(IAuthRepository authRepository)
+        public AuthService(IAuthRepository authRepository, IPasswordHasher passwordHasher)
         {
 
-            _authRepository= authRepository;
+            _authRepository = authRepository;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<string> Register(VendorUser user)
