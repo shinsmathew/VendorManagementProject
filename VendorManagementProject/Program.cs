@@ -22,7 +22,9 @@ namespace VendorManagementProject
 
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<DataBaseContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DBSC")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DBSC"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure()
+            ));
 
             // Register Redis Cache
             builder.Services.AddStackExchangeRedisCache(options =>

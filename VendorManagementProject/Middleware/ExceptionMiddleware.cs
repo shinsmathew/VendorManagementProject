@@ -22,7 +22,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception occurred.");
+            _logger.LogError(ex, "An unhandled exception occurred. Stack Trace: {StackTrace}", ex.StackTrace);
             await HandleExceptionAsync(context, ex);
         }
     }

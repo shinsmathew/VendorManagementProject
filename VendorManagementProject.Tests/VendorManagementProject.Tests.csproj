@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="RepositotyTest\" />
-    <Folder Include="ServicesTest\" />
   </ItemGroup>
 
 </Project>
