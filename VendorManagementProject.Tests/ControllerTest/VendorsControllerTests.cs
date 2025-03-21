@@ -96,13 +96,39 @@ namespace VendorManagementProject.Tests.AuthControllerTest
         {
             // Arrange
 
-             int Id = 1;
-            var vendor = new Vendor 
-            { 
-                VendorID = 1,
-                VendorName = "UpdatedVendor" 
-            };
+            int Id = 1;
+            var vendor = new Vendor
+            {
+                VendorName = "Shins",
+                Address1 = "Amazon",
+                ZIP = "8217015",
+                Country = "DE",
+                City = "Jena",
+                EMail = "shins@example.com",
+                Phone = "12345678",
+                Mobile = "123456789",
 
+                BankAccounts = new List<BankAccount>
+                {
+                    new BankAccount
+                    {
+                        IBAN = "SH27626203085343691870",
+                        BIC = "BDFNAYAHURQ",
+                        BankName = "SIB",
+                        AccountHolder = "Shins"
+                    }
+                },
+                ContactPersons = new List<ContactPerson>
+                {
+                    new ContactPerson
+                    {
+                        FirstName = "Shins",
+                        LastName = "Shins",
+                        Mobile = "2345678",
+                        EMail = "shins@example.com"
+                    }
+                }
+            };
 
             _mockVendorService.Setup(service => service.UpdateVendorAsync(vendor)).Returns(Task.CompletedTask);
 

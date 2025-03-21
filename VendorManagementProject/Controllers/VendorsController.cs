@@ -58,7 +58,7 @@ namespace VendorManagementProject.Controllers
 
         [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVendor(int id, Vendor vendor)
+        public async Task<IActionResult> UpdateVendor(int id, [FromBody] Vendor vendor)
         {
             
             if (!ModelState.IsValid)

@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using VendorManagementProject.Exceptions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class ExceptionMiddleware
 {
@@ -31,23 +32,19 @@ public class ExceptionMiddleware
     {
         context.Response.ContentType = "application/json";
 
-        context.Response.StatusCode = exception switch
-        {
-            NotFoundException => (int)HttpStatusCode.NotFound,
-            ValidationException => (int)HttpStatusCode.BadRequest,
-            System.UnauthorizedAccessException => (int)HttpStatusCode.Forbidden,
-            _ => (int)HttpStatusCode.InternalServerError
-        };
-
         var response = new
         {
-            StatusCode = context.Response.StatusCode,
-            Message = exception.Message, 
-            Detail = exception.InnerException?.Message 
+            StatusCode = exception switch
+            {
+                NotFoundException => (int)HttpStatusCode.NotFound,
+                ValidationException => (int)HttpStatusCode.BadRequest,
+                System.UnauthorizedAccessException => (int)HttpStatusCode.Forbidden,
+                _ => (int)HttpStatusCode.InternalServerError
+            },
+            Error = new { Message = exception.Message, Type = exception.GetType().Name }
         };
 
         return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 
-   
 }
