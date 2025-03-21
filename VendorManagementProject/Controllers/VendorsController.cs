@@ -16,16 +16,13 @@ namespace VendorManagementProject.Controllers
     public class VendorsController : ControllerBase
     {
         private readonly IVendorService _vendorService;
-        private readonly IVendorRepository _vendorRepository;
 
-
-        public VendorsController(IVendorService vendorService, IVendorRepository vendorRepository)
+        public VendorsController(IVendorService vendorService)
         {
             _vendorService = vendorService;
-            _vendorRepository = vendorRepository;
+ 
 
         }
-
        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
@@ -69,7 +66,7 @@ namespace VendorManagementProject.Controllers
                 return BadRequest(ModelState);
             }
             
-                var existingVendor = await _vendorRepository.GetVendorByIdAsync(id);
+                var existingVendor = await _vendorService.GetVendorByIdAsync(id);
 
                 if (existingVendor == null)
                 {
