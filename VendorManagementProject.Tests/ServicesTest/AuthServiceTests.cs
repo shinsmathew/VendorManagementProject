@@ -28,17 +28,21 @@ namespace VendorManagementProject.Tests.ServicesTest
             // Arrange
             var user = new VendorUser
             {
-                UserID = "john.doe",
-                Password = "Password@123"
+                UserFirstName = "Shins",
+                UserLastName = "Mathew",
+                UserID = "Shins.Mathew",
+                Password = "Shins@123",
+                Email = "shinsm@gmail.com",
+                Role = "Admin"
             };
 
-            _mockAuthRepository.Setup(repo => repo.Register(user)).ReturnsAsync("fakeToken");
+            _mockAuthRepository.Setup(repo => repo.Register(user)).ReturnsAsync("Generated_Fake_Token");
 
             // Act
             var result = await _authService.Register(user);
 
             // Assert
-            result.Should().Be("fakeToken");
+            result.Should().Be("Generated_Fake_Token");
             _mockAuthRepository.Verify(repo => repo.Register(user), Times.Once);
         }
 
@@ -48,9 +52,14 @@ namespace VendorManagementProject.Tests.ServicesTest
             // Arrange
             var user = new VendorUser
             {
-                UserID = "existingUser",
-                Password = "Password@123"
+                UserFirstName = "Shins",
+                UserLastName = "Mathew",
+                UserID = "Shins.Mathew",
+                Password = "Shins@123",
+                Email = "shinsm@gmail.com",
+                Role = "Admin"
             };
+
 
             _mockAuthRepository.Setup(repo => repo.Register(user)).ThrowsAsync(new Exception("User already exists."));
 
@@ -62,24 +71,24 @@ namespace VendorManagementProject.Tests.ServicesTest
         public async Task Login_WithValidCredentials_ReturnsToken()
         {
             // Arrange
-            _mockAuthRepository.Setup(repo => repo.Login("john.doe", "Password@123")).ReturnsAsync("fakeToken");
+            _mockAuthRepository.Setup(repo => repo.Login("Shins.Mathew", "Shins@123")).ReturnsAsync("Generated_Fake_Token");
 
             // Act
-            var result = await _authService.Login("john.doe", "Password@123");
+            var result = await _authService.Login("Shins.Mathew", "Shins@123");
 
             // Assert
-            result.Should().Be("fakeToken");
-            _mockAuthRepository.Verify(repo => repo.Login("john.doe", "Password@123"), Times.Once);
+            result.Should().Be("Generated_Fake_Token");
+            _mockAuthRepository.Verify(repo => repo.Login("Shins.Mathew", "Shins@123"), Times.Once);
         }
 
         [Fact]
         public async Task Login_WithInvalidCredentials_ThrowsException()
         {
             // Arrange
-            _mockAuthRepository.Setup(repo => repo.Login("invalidUser", "WrongPassword")).ThrowsAsync(new Exception("Invalid credentials."));
+            _mockAuthRepository.Setup(repo => repo.Login("Shinsmathew", "Password")).ThrowsAsync(new Exception("Invalid credentials."));
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => _authService.Login("invalidUser", "WrongPassword"));
+            await Assert.ThrowsAsync<Exception>(() => _authService.Login("Shinsmathew", "Password"));
         }
     }
 }
