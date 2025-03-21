@@ -111,6 +111,9 @@ dotnet add VendorManagementProject.Tests reference VendorManagementProject
 dotnet add VendorManagementProject.Tests package Moq
 dotnet add VendorManagementProject.Tests package Microsoft.NET.Test.Sdk
 dotnet add VendorManagementProject.Tests package xunit.runner.visualstudio
+dotnet add  VendorManagementProject.Tests package FluentAssertions
+
+
 
 #Tables
 
