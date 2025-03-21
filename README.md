@@ -1,6 +1,6 @@
 # Vendor Management Project with JWT Authentication
 
-Hello Shins Here......................... Nice to meet you!
+Hello, Shins Here......................... Nice to meet you!
 
 This is a **.NET Core 8 REST API** for managing vendors, their contact persons, and bank account details, featuring user authentication with **JWT (JSON Web Token)**.
 
@@ -111,6 +111,9 @@ dotnet add VendorManagementProject.Tests reference VendorManagementProject
 dotnet add VendorManagementProject.Tests package Moq
 dotnet add VendorManagementProject.Tests package Microsoft.NET.Test.Sdk
 dotnet add VendorManagementProject.Tests package xunit.runner.visualstudio
+dotnet add  VendorManagementProject.Tests package FluentAssertions
+
+
 
 #Tables
 
