@@ -19,7 +19,7 @@ namespace VendorManagementProject.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> UserRegisteration(VendorUser user)
+        public async Task<IActionResult> UserRegistration(VendorUser user)
         {
             
                 var token = await _authService.Register(user);

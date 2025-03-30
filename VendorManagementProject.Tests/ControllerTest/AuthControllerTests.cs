@@ -42,7 +42,7 @@ namespace VendorManagementProject.Tests.AuthControllerTest
             _mockAuthService.Setup(service => service.Register(user)).ReturnsAsync("Generated_Fake_Token");
 
             // Act
-            var result = await _authController.UserRegisteration(user);
+            var result = await _authController.UserRegistration(user);
 
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
@@ -63,7 +63,7 @@ namespace VendorManagementProject.Tests.AuthControllerTest
             _mockAuthService.Setup(service => service.Register(user)).ThrowsAsync(new Exception("User already exists."));
 
             // Act
-            var result = await _authController.UserRegisteration(user);
+            var result = await _authController.UserRegistration(user);
 
             // Assert
             var badRequestResult = result.Should().BeOfType<BadRequestObjectResult>().Subject;
