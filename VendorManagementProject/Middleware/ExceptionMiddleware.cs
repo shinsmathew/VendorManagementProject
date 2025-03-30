@@ -39,11 +39,14 @@ public class ExceptionMiddleware
                 NotFoundException => (int)HttpStatusCode.NotFound,
                 ValidationException => (int)HttpStatusCode.BadRequest,
                 System.UnauthorizedAccessException => (int)HttpStatusCode.Forbidden,
+                UserAlreadyExistsException => (int)HttpStatusCode.Conflict,
+                InvalidCredentialsException => (int)HttpStatusCode.Unauthorized,
                 _ => (int)HttpStatusCode.InternalServerError
             },
             Error = new { Message = exception.Message, Type = exception.GetType().Name }
         };
 
+        context.Response.StatusCode = response.StatusCode;
         return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 

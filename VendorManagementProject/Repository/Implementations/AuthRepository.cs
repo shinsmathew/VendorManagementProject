@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VendorManagementProject.DataBase;
+using VendorManagementProject.Exceptions;
 using VendorManagementProject.Models;
 using VendorManagementProject.Repository.Interfaces;
 using VendorManagementProject.Services.Class;
@@ -23,7 +24,7 @@ namespace VendorManagementProject.Repository.Class
         {
             if (await _context.VendorUsers.AnyAsync(u => u.UserID == user.UserID))
             {
-                throw new Exception("User already exists.");
+                throw new UserAlreadyExistsException($"User with ID {user.UserID} already exists.");
             }
             
             user.Password = _passwordHasher.HashPassword(user.Password);
@@ -39,7 +40,7 @@ namespace VendorManagementProject.Repository.Class
 
             if (user == null || !_passwordHasher.VerifyPassword(password, user.Password))
             {
-                throw new Exception("Invalid credentials.");
+                throw new InvalidCredentialsException("Invalid username or password.");
             }
 
             return _tokenService.GenerateToken(user);
